@@ -61,8 +61,17 @@ public class Library implements ILibrary {
      */
     @Override
     public void PrincipalList() {
+        /**
+         * Corresponde a variable del metodo para recibir el nombre de la colección que se crea.
+         */
         String collectionName="";
+        /**
+         * Variable del metodo que recibe el identificador de la canción que se asigna a las listas.
+         */
         int singSelection=0;
+        /**
+         * Variable del metodo que recibe el número de la lista a la que se le asigna una canción.
+         */
         int collectionSelection=0;
         try{            
             while(option!=5){
@@ -89,7 +98,7 @@ public class Library implements ILibrary {
                                 System.out.println("Seleccione la cancion a agregar");
                                 singSelection=sc.nextInt();
                                 ViewCollection(collection);
-                                System.out.println("Seleccione la lista");
+                                System.out.println("Seleccione el numero de la lista");
                                 collectionSelection=sc.nextInt();
                                 collection.get(collectionSelection-1).AddSing(sing.get(singSelection-1));                                                                       
                             }
@@ -126,15 +135,18 @@ public class Library implements ILibrary {
                             }
                             if(option==2){
                                 System.out.println("Ingrese el año por el que desea filtrar.");
+                                sc.nextLine();
                                 filter=sc.nextLine();
                                 FilterYear(filter);
                             }
                             break;
-                        case 4:                            
-                            ViewCollection(collection);
-                            System.out.println("Seleccione la colección que desea ver.");
-                            collectionSelection=sc.nextInt();
-                            collection.get(collectionSelection-1).ViewSings();                            
+                        case 4:    
+                            if(collection.size()>0){
+                                ViewCollection(collection);
+                                System.out.println("Seleccione la colección que desea ver.");
+                                collectionSelection=sc.nextInt();
+                                collection.get(collectionSelection-1).ViewSings();  
+                            }else{System.out.println("Debe ingresar primero una colección.");}
                             break;
                         default:
                             System.out.println("Opción fuera del rango solicitado.");  
@@ -282,7 +294,8 @@ public class Library implements ILibrary {
      */
     @Override
     public void FilterGenre(String filterGenre) {
-        try{ 
+        try{
+            Filtersing.clear();
             for(int i=0;i<sing.size();i++){
                 this.filter=sing.get(i).getGenre();
                 if(this.filter.equals(filterGenre)){
@@ -313,6 +326,7 @@ public class Library implements ILibrary {
     @Override
     public void FilterYear(String filterYear){
         try{
+            Filtersing.clear();
             for(int i=0;i<sing.size();i++){
                 this.filter=sing.get(i).getCreationDate();
                 if(this.filter.equals(filterYear)){
